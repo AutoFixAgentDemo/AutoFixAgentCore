@@ -1,0 +1,4 @@
+llm:
+  api_type: 'ollama'
+  base_url: 'http://222.20.126.175:8100/api'
+  model: 'qwen2.5:32b'

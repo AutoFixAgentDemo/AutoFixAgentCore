@@ -175,3 +175,6 @@ cython_debug/
 
 # Ignore VS Code settings
 .vscode/
+
+# Config file contains LLM endpoint
+app/core/config/config2.yaml

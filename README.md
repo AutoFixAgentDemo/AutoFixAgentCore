@@ -1,6 +1,6 @@
 # AutoFixAgentCore
 
-The AutoFixAgent is a RAG and multi-agents based APR tool using [Autogen](https://github.com/microsoft/autogen)
+The AutoFixAgent is a RAG and multi-agents based APR tool using [MetaGPT](https://docs.deepwisdom.ai/main/zh/)
 and [LightRAG](https://github.com/HKUDS/LightRAG).
 
 ## Prerequisites
