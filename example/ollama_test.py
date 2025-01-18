@@ -1,4 +1,8 @@
+"""
+This file shows how to use local models based on ollama to replace default OpenAIClient.
+"""
 from autogen import AssistantAgent, UserProxyAgent
+from autogen_agentchat.agents import AssistantAgent
 
 config_list = [
     {
