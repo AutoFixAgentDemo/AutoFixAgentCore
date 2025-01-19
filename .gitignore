@@ -178,3 +178,6 @@ cython_debug/
 
 # Config file contains LLM endpoint
 app/core/config/config2.yaml
+/app/core/logs/
+/app/core/metagpt/
+/app/core/workspace/
