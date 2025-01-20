@@ -1,0 +1,32 @@
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+void processInput(char *input) {
+    char *buffer = (char *)malloc(20 * sizeof(char));
+    if (buffer == NULL) {
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+
+    strcpy(buffer, input);
+
+    printf("Processed input: %s\n", buffer);
+
+    free(buffer);
+}
+
+void getUserInput() {
+    char userInput[100];
+    printf("Enter some text: ");
+    gets(userInput); 
+
+    processInput(userInput);
+}
+
+int main() {
+    getUserInput();
+    return 0;
+}
+```

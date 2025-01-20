@@ -11,7 +11,7 @@ class TeamWithLabel(Team):
         self.idea = idea
         # Human requirement.
         self.env.publish_message(
-            MessageWithLabel(role="Human", label="HumanIdea", content=idea, cause_by=UserRequirement,
+            MessageWithLabel(role="Human", label="human_idea", content=idea, cause_by=UserRequirement,
                              send_to=send_to or MESSAGE_ROUTE_TO_ALL),
             peekable=False,
         )
