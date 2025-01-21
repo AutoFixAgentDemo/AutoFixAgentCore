@@ -26,15 +26,17 @@ Note:
 """
 import asyncio
 import json
+from typing import ClassVar
+
 import fire
 
-from base.core.add_requirement import UserRequirement
-from base.core.team import Team
 from base.core.action import Action
+from base.core.add_requirement import UserRequirement
+from base.core.logs import define_log_level
 from base.core.logs import logger
-from base.core.role import Role, RoleReactMode
+from base.core.role import Role
 from base.core.schema import Message
-from typing import ClassVar
+from base.core.team import Team
 
 
 class SimpleWrite(Action):
@@ -255,4 +257,5 @@ def main(msg="write a function that calculates the product of a list and run it"
 
 
 if __name__ == "__main__":
+    define_log_level(print_level="INFO")  # NOTE: Set the log level to INFO
     fire.Fire(main)
