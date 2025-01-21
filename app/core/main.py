@@ -1,11 +1,8 @@
-"""
-Filename: MetaGPT/examples/build_customized_multi_agents.py
-Created Date: Wednesday, November 15th 2023, 7:12:39 pm
-Author: garylin2099
-"""
+""""""
 
 
-def main(idea: str, file_text: str, investment: int = 100, n_round: int = 3):
+def main(vuln_file: str, ):
+    """ The main entry point of the app. Do autofix for a single vulnerability. """
     pass
 
 

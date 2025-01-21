@@ -13,6 +13,9 @@ This proj is a part of the whole project. You must do those before running this 
 
 [TBD]
 
+Copy `app/core/config/config2.example.yaml` to `app/core/config/config2.yaml` and overwrite it with your own LLM source
+referring MetaGPT's document
+
 ### Install the dependencies
 
 ```shell
