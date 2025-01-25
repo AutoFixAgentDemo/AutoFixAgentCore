@@ -18,8 +18,18 @@ referring MetaGPT's document
 
 ### Install the dependencies
 
+#### Automatically
+
 ```shell
 conda create -f environments.yaml
+```
+#### Create an conda env from the brand new manually
+
+```shell
+conda  create -n autofix python=3.9
+conda activate autofix 
+conda install -y gymnasium fire
+pip install --upgrade metagpt
 ```
 
 ## NOTE

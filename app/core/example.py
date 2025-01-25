@@ -16,8 +16,9 @@ Steps:
 5. (May not implemented yet): If the answer is "No," the `SimpleWrite` action will be recalled to refine the snippet and restart the process.
 
 Usage:
-- Ensure the  Qwen-2.5:32B model are properly installed and configured before running the script.
+- Ensure the Ollama-based model are properly installed and configured before running the script.
 - Follow the documented examples to extend or adapt the code to your specific requirements.
+- `cd app/core` and run `python example.py` to execute the script.
 
 Note:
 - Verify your environment setup before execution to avoid runtime issues.

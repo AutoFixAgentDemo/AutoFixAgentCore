@@ -165,7 +165,7 @@ class Documents(BaseModel):
         docs = {doc.filename: doc for doc in documents}
         return Documents(docs=docs)
 
-    def to_action_output(self) -> "ActionOutput":
+    def to_action_output(self) :
         """Convert to action output string.
 
         :return: A string representing action output.
