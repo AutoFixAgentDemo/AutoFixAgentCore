@@ -8,8 +8,8 @@ from os import abort
 import json
 import typer
 
-from core.base.core.logs import define_log_level
-from core.base.core.team import Team
+from base.core.logs import define_log_level
+from base.core.team import Team
 from core.model.vuln_report import VulnReport
 from core.utils.path_validator import validate_path
 from core.agents.reader import Reader

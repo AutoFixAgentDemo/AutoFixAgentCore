@@ -33,12 +33,18 @@ pip install --upgrade metagpt
 ```
 
 ## Usage
+### Run the example to test the reachbility
+
+```shell
+cd app
+python3 example.py
+```
 
 ### Run core isolately
 
 ```shell
-cd app/core
-python3 -m main.py --help
+cd app
+python3  cli_core.py --help
 ```
 
 
