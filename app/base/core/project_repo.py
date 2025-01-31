@@ -35,8 +35,8 @@ from .const import (
     TEST_OUTPUTS_FILE_REPO,
     VISUAL_GRAPH_REPO_FILE_REPO,
 )
-from base.core.utils.file_repository import FileRepository
-from base.core.utils.git_repository import GitRepository
+from .utils.file_repository import FileRepository
+from .utils.git_repository import GitRepository
 
 
 class DocFileRepositories(FileRepository):

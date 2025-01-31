@@ -32,6 +32,17 @@ conda install -y gymnasium fire
 pip install --upgrade metagpt
 ```
 
+## Usage
+
+### Run core isolately
+
+```shell
+cd app/core
+python3 -m main.py --help
+```
+
+
 ## NOTE
 
 Ref https://www.cnblogs.com/wuhuacong/p/18380808 to organize
+

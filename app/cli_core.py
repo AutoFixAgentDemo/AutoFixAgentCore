@@ -1,3 +1,6 @@
+"""
+The main entry to access the core package using CLI. If you dont want to use the FastAPI server, you can use this script to run the core package.
+"""
 """"""
 import asyncio
 from os import abort
@@ -5,13 +8,13 @@ from os import abort
 import json
 import typer
 
-from base.core.logs import define_log_level
-from base.core.team import Team
-from model.vuln_report import VulnReport
-from utils.path_validator import validate_path
-from agents.reader import Reader
-from agents.repairer import Repairer
-from agents.verifier import Verifier
+from core.base.core.logs import define_log_level
+from core.base.core.team import Team
+from core.model.vuln_report import VulnReport
+from core.utils.path_validator import validate_path
+from core.agents.reader import Reader
+from core.agents.repairer import Repairer
+from core.agents.verifier import Verifier
 
 def main(vuln_text: str, vuln_report: VulnReport) -> dict:
     """
