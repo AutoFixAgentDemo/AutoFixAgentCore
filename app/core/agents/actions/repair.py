@@ -1,13 +1,14 @@
 import asyncio
 import json
 from typing import ClassVar
-from ...base.core.action import Action
-from ...base.core.logs import logger
-from ...base.core.schema import Message
-from ...model.repair import OverallRepair
-from ...model.read_report import ReadReport
-from ...model.vuln_report import VulnReport
-class GeneralReapir(Action):
+from base.core.action import Action
+from base.core.logs import logger
+from base.core.schema import Message
+from core.model.repair import OverallRepair
+from core.model.read_report import ReadReport
+from core.model.vuln_report import VulnReport
+from .utils import Util
+class GeneralRepair(Action):
     """
     This class is an action for repairer agent.
     """
@@ -63,4 +64,8 @@ class GeneralReapir(Action):
     name:str="GeneralRepair"
     desc:str="This action repairs the vulnerable code with given context."
     async def run(self,code_text:str,vuln_report:VulnReport,read_report:ReadReport)->OverallRepair:
-        pass
+        prompt = self.PROMPT_TEMPLATE.format(code_file=code_text,functional_purpose=read_report.content[0].functionPurpose,key_steps=read_report.content[0].functionImplementation,sink_point=vuln_report.vulnerabilities[0].sinkPoint,vulnerability_description=vuln_report.vulnerabilities[0].description)
+        res=await Util.ask_wrap(self,prompt,OverallRepair)
+        if res is None or type(res)!=OverallRepair:
+            raise ValueError("Invalid response from GeneralRepair. Stop execution.")
+        return res

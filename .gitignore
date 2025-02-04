@@ -180,3 +180,6 @@ cython_debug/
 config2.yaml
 logs/
 workspace/
+
+# Ignore dynaconf secret files
+.secrets.*

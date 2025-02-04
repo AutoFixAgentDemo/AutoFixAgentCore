@@ -30,14 +30,14 @@ def main(vuln_text: str, vuln_report: VulnReport) -> dict:
     """
     team = Team()
     team.hire(
-        [Reader()], # TODO: Add the Repairer and Verifier here after implementing them.
+        [Reader(),Repairer(),Verifier()], # TODO: Add the Repairer and Verifier here after implementing them.
     )
     # NOTE: The main entry to build the team and run
     team.invest(investment=100)
     idea_to_run="Understand, fix and verify the vulnerability mentioned in the vulnerability reports and explain the patchs"
     
 
-    async def run_team():
+    async def run_team(idea_to_run):
         """
         Run the AI team project asynchronously.
         """

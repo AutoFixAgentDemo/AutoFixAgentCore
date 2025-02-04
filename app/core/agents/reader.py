@@ -3,7 +3,7 @@ from base.core.add_requirement import UserRequirement
 from base.core.role import Role
 from base.core.schema import Message
 from base.core.logs import logger
-from model.vuln_report import VulnReport, SingleVuln
+from core.model.vuln_report import VulnReport, SingleVuln
 
 # Relative Import
 from .actions.read_code import ReadCode
@@ -32,12 +32,18 @@ class Reader(Role):
             try:
                 code_text=self.rc.memory.get_by_label("vuln_code")[-1].content
                 # NOTE: reports is a VulnReport object
-                reports=VulnReport(**[SingleVuln.model_validate_json(rep.content) for rep in self.rc.memory.get_by_label("vuln_report")]) # Get all the reports input
+                reports=VulnReport(**{"vulnerabilities":[SingleVuln.model_validate_json(rep.content) for rep in self.rc.memory.get_by_label("vuln_report")]}) # Get all the reports input
             except Exception as e:
                 logger.error(f"Error in reading the vuln_code and vuln_report: {e}")
                 return None # TODO: Add error handling here
-            # TODO: Run the action and process the response
-            await todo.run(code_text=code_text,reports=reports) 
+            
+            res=await todo.run(code_text=code_text,reports=reports) 
+            # res should be a ReadReport object
+            res_plain=res.model_dump_json()
+            read_report_msg=Message(content=res_plain,label="read_report",role=self.profile,cause_by=type(todo),sent_from=type(todo))
+            self.rc.memory.add(read_report_msg)
+            logger.info(f"Read report generated and has been pushed to the memory.")
+            
         else:
             # NOTE: Process any unexpected status
             logger.exception(f"Action {self.rc.todo.name} is not implemented or excepted.")
