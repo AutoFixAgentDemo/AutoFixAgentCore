@@ -9,7 +9,7 @@ from base.core.logs import logger
 from base.core.schema import Message
 from core.model.read_report import ReadReport, SingleFuncReport
 from core.model.vuln_report import VulnReport
-from .utils import Util
+from app.core.utils.service import LLMService
 
 class ReadCode(Action):
     """
@@ -65,7 +65,7 @@ class ReadCode(Action):
     async def run(self,code_text:str,reports:VulnReport)->ReadReport:
 
         prompt = self.PROMPT_TEMPLATE.format(code_text=code_text,report_text=reports.model_dump_json()) # NOTE: Dump the reports to json string
-        res=await Util.ask_wrap(self,prompt,ReadReport)
+        res=await LLMService.ask_structured_resp(self,prompt,ReadReport)
         if res is None or type(res)!=ReadReport:
             raise ValueError("Invalid response from ReadCode. Stop execution.")
         return res

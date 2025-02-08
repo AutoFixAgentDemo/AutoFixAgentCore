@@ -1,2 +1,10 @@
 [core]
 max_retries=3
+
+[llm]
+type="ollama" # Must be lowercase in ["ollama", ...]
+model="qwen2.5:32b"
+host="http://172.17.0.16:11434"
+
+[request]
+timeout=60

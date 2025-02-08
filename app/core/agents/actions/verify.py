@@ -6,7 +6,7 @@ from core.model.repair import OverallRepair
 from core.model.read_report import ReadReport
 from core.model.vuln_report import VulnReport
 from core.model.verify import OverallVerify
-from .utils import Util
+from app.core.utils.service import LLMService
 class GeneralVerify(Action):
     PROMPT_TEMPLATE:ClassVar[str]="""
     You are a security and code quality verifier. Your task is to review the provided materials to determine if the vulnerability fixes have been applied correctly without interfering with the original functionality of the code.
@@ -67,5 +67,5 @@ class GeneralVerify(Action):
     desc:str="This action verifies the correctness of the applied patches."
     async def run(self,code_text:str,vuln_reports:VulnReport,read_reports:ReadReport,diff_texts:OverallRepair)->OverallVerify:
         prompt=self.PROMPT_TEMPLATE.format(code_text=code_text,vuln_reports=vuln_reports.model_dump(),read_reports=read_reports.model_dump(),diff_texts=diff_texts.model_dump())
-        res=await Util.ask_wrap(self,prompt,OverallVerify)
+        res=await LLMService.ask_structured_resp(self,prompt,OverallVerify)
         return res

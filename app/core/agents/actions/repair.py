@@ -7,7 +7,7 @@ from base.core.schema import Message
 from core.model.repair import OverallRepair
 from core.model.read_report import ReadReport
 from core.model.vuln_report import VulnReport
-from .utils import Util
+from app.core.utils.service import LLMService
 class GeneralRepair(Action):
     """
     This class is an action for repairer agent.
@@ -65,7 +65,7 @@ class GeneralRepair(Action):
     desc:str="This action repairs the vulnerable code with given context."
     async def run(self,code_text:str,vuln_report:VulnReport,read_report:ReadReport)->OverallRepair:
         prompt = self.PROMPT_TEMPLATE.format(code_file=code_text,functional_purpose=read_report.content[0].functionPurpose,key_steps=read_report.content[0].functionImplementation,sink_point=vuln_report.vulnerabilities[0].sinkPoint,vulnerability_description=vuln_report.vulnerabilities[0].description)
-        res=await Util.ask_wrap(self,prompt,OverallRepair)
+        res=await LLMService.ask_structured_resp(self,prompt,OverallRepair)
         if res is None or type(res)!=OverallRepair:
             raise ValueError("Invalid response from GeneralRepair. Stop execution.")
         return res
