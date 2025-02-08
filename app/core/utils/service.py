@@ -32,8 +32,8 @@ class LLMService:
         if not self.config:
             raise ValueError("No LLM configuration found.")
         for key in ["type", "model", "host", "api_key"]:
-            if key not in self.config:
-                if key == "api_key": # NOTE: Some LLMs may not require an API key.
+            if key not in self.config or not self.config[key]:
+                if key == "api_key": # NOTE: Some LLMs may not require an API key. Add a placeholder here.
                     self.config[key] = "N/A"
                 else:
                     raise ValueError(f"Missing LLM configuration key: {key}")

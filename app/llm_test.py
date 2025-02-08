@@ -20,7 +20,7 @@ if __name__=="__main__":
     service1 = LLMService(
         type="ollama",
         host="http://172.17.0.16:11434",
-        api_key="NA", # NOTE: You must put a value even if it is not required cause instructor lib need to do so.
+        api_key="N/A", # NOTE: You must put a value even if it is not required cause instructor lib need to do so.
         model="qwen2.5:32b"
     )
     print(f"service1 config: {service1.config}")
@@ -37,4 +37,5 @@ if __name__=="__main__":
 
     # Generate a completion with structured data
     print(f"testing service2")
-    print(service2.generate_structured(f"Tom got 90 points in the exam. Convert the fact to a json with the following format.Respond using JSON.",exampleModel))
+    res=service2.generate_structured(f"Tom got 90 points in the exam. Convert the fact to a json with the following format.Respond using JSON.",exampleModel)
+    print(res,type(res))
