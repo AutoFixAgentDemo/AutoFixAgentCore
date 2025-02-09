@@ -16,9 +16,11 @@ class LLMMeta(ABCMeta):
             registry_name = name.lower().replace('client', '')
             mcs._registry[registry_name] = cls
             logger.info(f"Registered LLM: {registry_name} -> {cls.__name__}")
+        elif cls.__name__=='BaseLLMClient':
+            return cls # NOTE: Skip the debug output for the base class
         else:
-            print("Not registered (base class or ABC)")
-        print(f"Current registry: {list(mcs._registry.keys())}")
+            logger.debug(f"Not registered the class {cls.__name__}(base class or ABC)")
+        logger.debug(f"Current registry: {list(mcs._registry.keys())}")
         return cls
     
     @classmethod

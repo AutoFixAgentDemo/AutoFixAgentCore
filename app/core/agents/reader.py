@@ -40,12 +40,14 @@ class Reader(Role):
             res=await todo.run(code_text=code_text,reports=reports) 
             # res should be a ReadReport object
             res_plain=res.model_dump_json()
-            read_report_msg=Message(content=res_plain,label="read_report",role=self.profile,cause_by=type(todo),sent_from=type(todo))
+            read_report_msg=Message(content=res_plain,label="read_report",role=self.name,cause_by=type(todo),sent_from=type(todo))
             self.rc.memory.add(read_report_msg)
-            logger.info(f"Read report generated and has been pushed to the memory.")
+
+            logger.debug(f"Read report generated and has been pushed to the memory. ")
             
         else:
             # NOTE: Process any unexpected status
             logger.exception(f"Action {self.rc.todo.name} is not implemented or excepted.")
-            msg = None
-        return msg
+            read_report_msg = None
+        
+        return read_report_msg

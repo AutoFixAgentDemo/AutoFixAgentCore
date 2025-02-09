@@ -28,7 +28,7 @@ class LLMService:
         if kwargs:
             self.config = kwargs # NOTE: Not recommended but can override the settings.toml using explicit parameters.
         else:
-            print(settings.get('llm'))
+            logger.debug(f"Use the following config:{settings.get('llm')}")
             self.config = settings.get("llm", default={})
         
         logger.info(f"Initialized LLM service with config: {self.config}")

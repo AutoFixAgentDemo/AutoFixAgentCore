@@ -6,7 +6,7 @@ from core.model.repair import OverallRepair
 from core.model.read_report import ReadReport
 from core.model.vuln_report import VulnReport
 from core.model.verify import OverallVerify
-from app.core.utils.service import LLMService
+from core.utils.service import LLMService
 class GeneralVerify(Action):
     PROMPT_TEMPLATE:ClassVar[str]="""
     You are a security and code quality verifier. Your task is to review the provided materials to determine if the vulnerability fixes have been applied correctly without interfering with the original functionality of the code.
@@ -29,19 +29,7 @@ class GeneralVerify(Action):
 
     - The overall JSON object must follow this structure:
       
-      {
-        "verify_reports": [
-          {
-            "verify_status": <boolean>,
-            "verify_message": "<explanation>"
-          },
-          {
-            "verify_status": <boolean>,
-            "verify_message": "<explanation>"
-          }
-          // ... additional SingleVerify entries as needed for each vulnerability
-        ]
-      }
+      {expected_schema}
 
     Ensure that:
     - There is no extraneous text or additional keys in your output.
@@ -66,6 +54,7 @@ class GeneralVerify(Action):
     name:str="GeneralVerify"
     desc:str="This action verifies the correctness of the applied patches."
     async def run(self,code_text:str,vuln_reports:VulnReport,read_reports:ReadReport,diff_texts:OverallRepair)->OverallVerify:
-        prompt=self.PROMPT_TEMPLATE.format(code_text=code_text,vuln_reports=vuln_reports.model_dump(),read_reports=read_reports.model_dump(),diff_texts=diff_texts.model_dump())
-        res=await LLMService.ask_structured_resp(self,prompt,OverallVerify)
+        service=LLMService() # Initialize the singleton service
+        prompt=self.PROMPT_TEMPLATE.format(code_text=code_text,vuln_reports=vuln_reports.model_dump(),read_reports=read_reports.model_dump(),diff_texts=diff_texts.model_dump(),expected_schema=OverallVerify.model_json_schema())
+        res=await service.generate_structured_async(prompt,OverallVerify)
         return res

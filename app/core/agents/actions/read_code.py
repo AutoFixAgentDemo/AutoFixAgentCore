@@ -9,7 +9,7 @@ from base.core.logs import logger
 from base.core.schema import Message
 from core.model.read_report import ReadReport, SingleFuncReport
 from core.model.vuln_report import VulnReport
-from app.core.utils.service import LLMService
+from core.utils.service import LLMService
 
 class ReadCode(Action):
     """
@@ -56,10 +56,12 @@ class ReadCode(Action):
     name:str="ReadCode"
     desc:str="This action is used to read the code."
     async def run(self,code_text:str,reports:VulnReport)->ReadReport:
-
+        service=LLMService() # Initialize the singleton service
         prompt = self.PROMPT_TEMPLATE.format(code_text=code_text,report_text=reports.model_dump_json(),expected_schema=ReadReport.model_json_schema()) # NOTE: Dump the reports to json string
-        res=await LLMService.generate_structured_async(prompt,ReadReport)
-        if res is None or type(res)!=ReadReport:
-            raise ValueError("Invalid response from ReadCode. Stop execution.")
+        res=await service.generate_structured_async(prompt,ReadReport)
+        
+        if not isinstance(res, ReadReport):
+            logger.info(f"ReadCode response: {res.model_dump_json()}")
+            raise ValueError(f"Invalid response from ReadCode. Stop execution: {type(res)},{res.model_dump_json()}")
         return res
     

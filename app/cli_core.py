@@ -18,6 +18,13 @@ from core.agents.verifier import Verifier
 from core.utils.service import LLMService
 from dynaconf import settings
 from core.utils.provider.ollama import OllamaClient  # NOTE: Import the OllamaClient class from the ollama.py file to register automatically.
+from enum import Enum
+class LogLevel(str,Enum):
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
 
 def main(vuln_text: str, vuln_report: VulnReport) -> dict:
     """
@@ -59,7 +66,7 @@ def main(vuln_text: str, vuln_report: VulnReport) -> dict:
     return {"status": "placeholder"}
 
 
-def main_wrapper(vuln_report_path: str = typer.Option(help="The path of the report", callback=validate_path, )) -> dict:
+def main_wrapper(vuln_report_path: str = typer.Option(help="The path of the report", callback=validate_path, ),log_level:LogLevel=typer.Option(default=LogLevel.INFO,help="The log level of the program",case_sensitive=False,)) -> dict:
     """
     The wrapper of the main entry of the core AutoFix. In this function we extract vulnerable code and report from the vuln report and Instantiate it. Then the two key elements will be sent to the real entry for fixing.
 
@@ -68,6 +75,8 @@ def main_wrapper(vuln_report_path: str = typer.Option(help="The path of the repo
     :return: The fixed code diff with other metas.
     :rtype: dict
     """
+    # Set the log level
+    define_log_level(print_level=log_level.value) 
 
     # Load the json report to a dictionary
     try:
@@ -102,5 +111,5 @@ if __name__ == "__main__":
     """
     Entry point for the script. The code below is the core logic of the autofix functionality.
     """
-    define_log_level(print_level="INFO")  # NOTE: Set the log level to INFO
+    
     typer.run(main_wrapper)
