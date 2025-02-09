@@ -6,6 +6,7 @@ from .meta import BaseLLMClient, LLMMeta
 from dynaconf import settings
 from pydantic import BaseModel
 from base.core.logs import logger
+
 class LLMManager:
     def __init__(self, config: Dict[str, Any] = None, **kwargs):
         self.config = config or kwargs
@@ -20,5 +21,7 @@ class LLMManager:
     
     def generate_plain(self, prompt: str) -> str:
         return self.client.generate_plain(prompt)
-    def generate_structured(self, prompt: str,excepted_model:BaseModel) -> BaseModel:
-        return self.client.generate_structured(prompt,excepted_model)
+    def generate_structured(self, prompt: str,expected_model:BaseModel) -> BaseModel:
+        return self.client.generate_structured(prompt,expected_model)
+    async def generate_structured_async(self, prompt: str,expected_model:BaseModel) -> BaseModel:
+        return await self.client.generate_structured_async(prompt,expected_model)

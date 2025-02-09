@@ -7,10 +7,13 @@ import json
 from typing import Dict, Any
 from .provider.base.manager import LLMManager
 from .provider.base.meta import LLMMeta
+from .decorators import singleton
 
+
+@singleton
 class LLMService:
     """
-    This class is used to communicate with the remote LLM API. It is herited from the BaseLLM class in provider."""
+    This Singleton class is used to communicate with the remote LLM API. It is herited from the BaseLLM class in provider."""
     def __init__(
         self,
         **kwargs
@@ -54,7 +57,7 @@ class LLMService:
 
     @staticmethod
     def list_available_llms() -> list:
-        """列出所有可用的LLM类型"""
+        """List all available LLMs."""
         return list(LLMMeta.list_clients().keys())
     
     def generate_plain(self, prompt: str) -> str:
@@ -70,7 +73,7 @@ class LLMService:
         except Exception as e:
             raise ValueError(f"Failed to generate plain completion: {str(e)}")
         
-    def generate_structured(self, prompt: str,excepted_model:BaseModel) -> BaseModel:
+    def generate_structured(self, prompt: str,expected_model:BaseModel) -> BaseModel:
         """
         Generate a completion with structured data which fits the givel model.
         Args:
@@ -80,10 +83,23 @@ class LLMService:
             The generated completion.
         """
         try:
-            return self.manager.generate_structured(prompt,excepted_model)
+            return self.manager.generate_structured(prompt,expected_model)
         except Exception as e:
             raise ValueError(f"Failed to generate structured completion: {str(e)}")
-    
+    async def generate_structured_async(self, prompt: str,expected_model:BaseModel) -> BaseModel:
+        """
+        Generate a completion with structured data asynchronously.
+        Args:
+            prompt: The prompt text.
+            excepted_model: The expected model to validate.
+        Returns:
+            The generated completion.
+        """
+        try:
+            return await self.manager.generate_structured_async(prompt,expected_model)
+        except Exception as e:
+            raise ValueError(f"Failed to generate structured completion: {str(e)}")
+        
     @DeprecationWarning
     async def ask_structured_resp(cls:Action,prompt:str,excepted_resp_model:BaseModel)->BaseModel:
         """

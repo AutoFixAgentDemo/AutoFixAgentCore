@@ -44,4 +44,9 @@ class BaseLLMClient(ABC,metaclass=LLMMeta):
         """
         To use generate endpoint to generate a completion with structured data which fits the givel model."""
         pass
+    @abstractmethod
+    async def generate_structured_async(self, prompt: str,expected_model:BaseModel) -> list:
+        """
+        To use generate endpoint to generate a completion with structured data asynchronously."""
+        pass
 

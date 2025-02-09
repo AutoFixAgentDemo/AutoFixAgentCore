@@ -15,6 +15,9 @@ from core.utils.path_validator import validate_path
 from core.agents.reader import Reader
 from core.agents.repairer import Repairer
 from core.agents.verifier import Verifier
+from core.utils.service import LLMService
+from dynaconf import settings
+from core.utils.provider.ollama import OllamaClient  # NOTE: Import the OllamaClient class from the ollama.py file to register automatically.
 
 def main(vuln_text: str, vuln_report: VulnReport) -> dict:
     """
@@ -72,6 +75,7 @@ def main_wrapper(vuln_report_path: str = typer.Option(help="The path of the repo
             vuln_report = json.load(f)
         vuln_text = vuln_report["file"]
         report = vuln_report["report"]
+
     except Exception as e:
         typer.echo(f"Error loading the report: {str(e)}", err=True)
         abort()
@@ -84,8 +88,12 @@ def main_wrapper(vuln_report_path: str = typer.Option(help="The path of the repo
         typer.echo(f"The report does not match the model: {str(e)}", err=True)
         abort() # TODO: Return the 500 and err msg here
 
+    # Init the singleton LLM service using steeings.toml
+    LLMService()
+
     # Call the main entry
     main(vuln_text, vuln_report)
+
     return {"status": "placeholder"}
 
 

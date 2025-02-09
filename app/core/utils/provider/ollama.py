@@ -8,7 +8,7 @@ from .util import send_request
 import instructor
 from openai import OpenAI
 from dynaconf import settings
-
+import asyncio
 class OllamaClient(BaseLLMClient):
     def __init__(self,host:str,model:str,api_key:str):
         """
@@ -33,7 +33,7 @@ class OllamaClient(BaseLLMClient):
         ),mode=instructor.Mode.JSON,)
     def generate_plain(self, prompt: str) -> str:
         """
-        Generate a completion without structured data.
+        Generate a completion without structured data via API service.
         Args:
             prompt: The prompt text.
         Returns:
@@ -60,7 +60,7 @@ class OllamaClient(BaseLLMClient):
         Generate a completion with structured data using instructor via /chat/.
         Args:
             prompt: The prompt text.
-            excepted_model: The expected model to validate.
+            expected_model: The expected model to validate.
         """
         resp=self.client.chat.completions.create(
             model=self.model_name,
@@ -74,13 +74,34 @@ class OllamaClient(BaseLLMClient):
             max_retries=settings.get("core.max_retries", default=3),
         )
         return resp
+    async def generate_structured_async(self, prompt: str,expected_model:BaseModel) -> BaseModel:
+        """
+        Generate a completion with structured data asynchronously using instructor via /chat/.
+        Args:
+            prompt: The prompt text.
+            expected_model: The expected model to validate.
+        """
+        resp = await asyncio.to_thread(
+        self.client.chat.completions.create,
+        model=self.model_name,
+        messages=[
+            {
+                "role": "user",
+                "content": prompt,
+            }
+        ],
+        response_model=expected_model,
+        max_retries=settings.get("core.max_retries", default=3),
+        ) # NOTE: Useasyncio.to_thread to run the sync function in a thread
+
+        return resp
     @DeprecationWarning
     def generate_structured_legacy(self, prompt: str,expected_model:BaseModel) -> BaseModel:
         """
         Generate a completion with structured data which fits the givel model. Deprecated for 400 bug.
         Args:
             prompt: The prompt text.
-            excepted_model: The expected model to validate.
+            expected_model: The expected model to validate.
         Returns:
             The generated completion.
         """

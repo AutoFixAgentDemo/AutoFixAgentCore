@@ -34,14 +34,7 @@ class ReadCode(Action):
     4. NO markdown formatting or code fences
     5. Strict adherence to the following schema:
 
-    [{{
-        "functionName": string,        // Exact function name from sink point
-        "functionPurpose": string,     // Single sentence, max 100 chars
-        "functionImplementation": [    // Array of implementation steps
-            string,                    // Each step max 120 chars
-            ...
-        ]
-    }}]
+    {expected_schema}
 
     VALIDATION RULES:
     1. functionName must exactly match sink point reference
@@ -64,8 +57,8 @@ class ReadCode(Action):
     desc:str="This action is used to read the code."
     async def run(self,code_text:str,reports:VulnReport)->ReadReport:
 
-        prompt = self.PROMPT_TEMPLATE.format(code_text=code_text,report_text=reports.model_dump_json()) # NOTE: Dump the reports to json string
-        res=await LLMService.ask_structured_resp(self,prompt,ReadReport)
+        prompt = self.PROMPT_TEMPLATE.format(code_text=code_text,report_text=reports.model_dump_json(),expected_schema=ReadReport.model_json_schema()) # NOTE: Dump the reports to json string
+        res=await LLMService.generate_structured_async(prompt,ReadReport)
         if res is None or type(res)!=ReadReport:
             raise ValueError("Invalid response from ReadCode. Stop execution.")
         return res
