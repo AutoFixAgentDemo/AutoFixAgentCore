@@ -3,22 +3,22 @@ The main entry to access the core package using CLI. If you dont want to use the
 """
 """"""
 import asyncio
+import json
+from enum import Enum
 from os import abort
 
-import json
 import typer
 
 from base.core.logs import define_log_level
 from base.core.team import Team
-from core.model.vuln_report import VulnReport
-from core.utils.path_validator import validate_path
 from core.agents.reader import Reader
 from core.agents.repairer import Repairer
 from core.agents.verifier import Verifier
+from core.model.vuln_report import VulnReport
+from core.utils.path_validator import validate_path
 from core.utils.service import LLMService
-from dynaconf import settings
-from core.utils.provider.ollama import OllamaClient  # NOTE: Import the OllamaClient class from the ollama.py file to register automatically.
-from enum import Enum
+
+
 class LogLevel(str,Enum):
     DEBUG = "DEBUG"
     INFO = "INFO"
@@ -70,6 +70,8 @@ def main_wrapper(vuln_report_path: str = typer.Option(help="The path of the repo
     """
     The wrapper of the main entry of the core AutoFix. In this function we extract vulnerable code and report from the vuln report and Instantiate it. Then the two key elements will be sent to the real entry for fixing.
 
+    :param log_level: The log level of the program
+    :type log_level: LogLevel
     :arg vuln_report_path: The path of the report
     :type vuln_report_path: str
     :return: The fixed code diff with other metas.

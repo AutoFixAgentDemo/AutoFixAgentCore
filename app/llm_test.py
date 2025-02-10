@@ -3,11 +3,12 @@ This is the file to test the reachbility of the LLM API.
 """
 
 
-from core.utils.service import LLMService
-from dynaconf import settings
-from core.utils.provider.ollama import OllamaClient # NOTE: Import the OllamaClient class from the ollama.py file to register automatically.
 from pydantic import BaseModel
-class exampleModel(BaseModel):
+
+from core.utils.service import LLMService
+
+
+class ExampleModel(BaseModel):
     name:str
     score:float
 if __name__=="__main__":
@@ -37,5 +38,7 @@ if __name__=="__main__":
 
     # Generate a completion with structured data
     print(f"testing service2")
-    res=service2.generate_structured(f"Tom got 90 points in the exam. Convert the fact to a json with the following format.Respond using JSON.",exampleModel)
+    res = service2.generate_structured(
+        f"Tom got 90 points in the exam. Convert the fact to a json with the following format.Respond using JSON.",
+        ExampleModel)
     print(res,type(res))

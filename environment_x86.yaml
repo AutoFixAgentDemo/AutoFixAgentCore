@@ -238,4 +238,3 @@ dependencies:
       - wrapt==1.15.0
       - yarl==1.18.3
       - zhipuai==2.0.1
-prefix: /root/Apps/miniconda3/envs/autofix_meta

@@ -22,7 +22,7 @@ Copy the file `app/core/config/config2.example.yaml` to `app/core/config/config2
 Then initialize the independent configuration service by `dynaconf`:
 
 ```shell
-cp .secrect.example.toml .secrets.toml 
+cp .secret.example.toml .secrets.toml 
 ```
 
 Store sensitive credentials like `api_key` in `.secrets.toml` and configuration settings in `settings.toml`. Maintain separate files for security.
@@ -35,12 +35,21 @@ Store sensitive credentials like `api_key` in `.secrets.toml` and configuration 
 
 ### Install the dependencies
 
+If on x86 platform, you can install the dependencies by:
+
 ```shell
-conda create -f environments.yaml
+conda create -f environment_x86.yaml
+```
+
+For macOS, you can install the dependencies by:
+
+```shell
+conda create -f environment_osx-arm64.yaml
 ```
 
 ## Usage
-### Run the example to test the reachbility of metagpt framework
+
+### Run the example to test the reachability of metagpt framework
 
 ```shell
 cd app
@@ -54,7 +63,7 @@ cd app
 python3 llm_test.py
 ```
 
-### Run core client isolately
+### Run core client by cli
 
 ```shell
 cd app
