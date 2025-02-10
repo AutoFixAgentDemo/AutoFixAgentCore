@@ -183,3 +183,4 @@ workspace/
 
 # Ignore dynaconf secret files
 .secrets.*
+/app/core/metagpt/
