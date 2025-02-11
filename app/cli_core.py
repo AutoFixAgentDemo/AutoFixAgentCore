@@ -16,8 +16,11 @@ from core.agents.repairer import Repairer
 from core.agents.verifier import Verifier
 from core.model.vuln_report import VulnReport
 from core.utils.path_validator import validate_path
+from core.utils.provider.ollama import OllamaClient  # noqa: F401
 from core.utils.service import LLMService
 
+
+# IMPORTANT: Import the OllamaClient class from the ollama.py file to register automatically.
 
 class LogLevel(str,Enum):
     DEBUG = "DEBUG"

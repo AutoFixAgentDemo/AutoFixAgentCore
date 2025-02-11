@@ -13,3 +13,9 @@ This package is designed specifically for application-layer implementations and 
 2. Register your LLM Client by `LLMFactory.register_llm("custom_llm", CustomLLMClient)`
 3. Configure your LLM backend config in `settings.toml` and `.secrect.toml`
 4. Also, config well for MetaGPT in `app/base/core/provider`.
+
+> [!IMPORTANT]
+> To register your LLM provider's client, remember to manually import your Client class in the main entry:
+> ```python
+
+```

@@ -13,7 +13,7 @@ class ExampleModel(BaseModel):
     score:float
 if __name__=="__main__":
     
-    print("Available LLMs:", LLMService.list_available_llms())
+
 
     # Initialize the configuration
 
@@ -29,7 +29,7 @@ if __name__=="__main__":
     
     service2 = LLMService()
     print(f"service2 config: {service2.config}")
-
+    print("Available LLMs:", service2.list_available_llms())
     # Generate a completion
     #print(f"testing service1")
     #print(service1.generate_plain("Hello, world!"))

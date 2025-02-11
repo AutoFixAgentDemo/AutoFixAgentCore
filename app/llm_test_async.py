@@ -3,9 +3,14 @@ This is the file to test the reachability of the LLM API asynchronously.
 """
 
 import asyncio
-from core.utils.service import LLMService
+
 from pydantic import BaseModel
-from core.utils.provider.ollama import OllamaClient # NOTE: Import the OllamaClient class from the ollama.py file to register automatically.
+
+from core.utils.provider.ollama import OllamaClient  # noqa: F401
+from core.utils.service import LLMService
+
+
+# IMPORTANT: Import the OllamaClient class from the ollama.py file to register automatically.
 
 
 class ExampleModel(BaseModel):
