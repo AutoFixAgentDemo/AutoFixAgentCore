@@ -43,13 +43,13 @@ apt-get update && apt-get install build-essential python3-dev
 If on x86 platform, you can install the dependencies by:
 
 ```shell
-conda create -f environment_x86.yaml
+conda env create -f environment_x86.yaml
 ```
 
 For macOS, you can install the dependencies by:
 
 ```shell
-conda create -f environment_osx-arm64.yaml
+conda env create -f environment_osx-arm64.yaml
 ```
 
 ## Usage
