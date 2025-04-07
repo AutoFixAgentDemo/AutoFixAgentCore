@@ -35,6 +35,11 @@ Store sensitive credentials like `api_key` in `.secrets.toml` and configuration 
 
 ### Install the dependencies
 
+Before installing, check:
+```shell
+apt-get update && apt-get install build-essential python3-dev
+```
+
 If on x86 platform, you can install the dependencies by:
 
 ```shell
